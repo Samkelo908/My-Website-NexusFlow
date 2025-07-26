@@ -3,1184 +3,1241 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NexusFlow - Pioneering the Future of Digital Innovation</title>
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='a' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%233b82f6'/%3E%3Cstop offset='100%25' style='stop-color:%238b5cf6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='url(%23a)'/%3E%3Ctext x='16' y='23' font-family='Arial, sans-serif' font-size='20' font-weight='bold' text-anchor='middle' fill='white'%3EN%3C/text%3E%3C/svg%3E">
+    <title>NexusFlow Intranet - The Future of Work</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
     <style>
-        /* Custom CSS */
-        * {
-            margin: 0;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #667eea 100%);
+            --text-primary: #ffffff;
+            --text-secondary: #a0aec0;
+            --text-muted: #718096;
+            --bg-primary: #0a0a0a;
+            --bg-secondary: rgba(255, 255, 255, 0.05);
+            --bg-hover: rgba(255, 255, 255, 0.1);
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Light theme */
+        .light-theme {
+            --text-primary: #1a202c;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --bg-primary: #f7fafc;
+            --bg-secondary: rgba(0, 0, 0, 0.05);
+            --bg-hover: rgba(0, 0, 0, 0.1);
+            --border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Reduced motion preferences */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Accessibility improvements */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
             padding: 0;
-            box-sizing: border-box;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
         }
-        
-        /* Gradient text animation */
-        @keyframes gradient-shift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+
+        .focus-visible:focus {
+            outline: 2px solid #667eea;
+            outline-offset: 2px;
         }
-        
-        .gradient-text {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #667eea 100%);
+
+        /* Skip to content link */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #667eea;
+            color: white;
+            padding: 8px;
+            text-decoration: none;
+            z-index: 100;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* Animated gradient background */
+        .hero-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-gradient);
             background-size: 400% 400%;
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradient-shift 8s ease infinite;
+            animation: gradient-flow 15s ease infinite;
+            opacity: 0.1;
+            z-index: -2;
         }
-        
-        /* Floating animation */
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            33% { transform: translateY(-10px) rotate(1deg); }
-            66% { transform: translateY(5px) rotate(-1deg); }
+
+        .animations-enabled .hero-bg {
+            animation: gradient-flow 15s ease infinite;
         }
-        
-        .float {
-            animation: float 6s ease-in-out infinite;
+
+        @keyframes gradient-flow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
-        
-        /* Pulse animation */
-        @keyframes pulse-glow {
-            0%, 100% { 
-                box-shadow: 0 0 20px rgba(102, 126, 234, 0.6),
-                           0 0 40px rgba(102, 126, 234, 0.4),
-                           0 0 60px rgba(102, 126, 234, 0.2);
+
+        /* Particle system */
+        .particle-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .animations-enabled .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.5);
+            pointer-events: none;
+            border-radius: 50%;
+            animation: float-up 20s linear infinite;
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
             }
-            50% { 
-                box-shadow: 0 0 30px rgba(102, 126, 234, 0.8),
-                           0 0 60px rgba(102, 126, 234, 0.6),
-                           0 0 90px rgba(102, 126, 234, 0.4);
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
             }
         }
-        
-        .pulse-glow {
-            animation: pulse-glow 3s ease-in-out infinite;
-        }
-        
-        /* Glass morphism */
+
+        /* Glassmorphism effects */
         .glass {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: var(--bg-secondary);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
-        
+
         .glass-dark {
             background: rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
         }
-        
-        /* Neon glow effect */
-        .neon-glow {
-            text-shadow: 0 0 10px currentColor,
-                        0 0 20px currentColor,
-                        0 0 30px currentColor,
-                        0 0 40px currentColor;
+
+        /* High contrast text */
+        .text-primary { color: var(--text-primary); }
+        .text-secondary { color: var(--text-secondary); }
+        .text-muted { color: var(--text-muted); }
+
+        /* Ensure good contrast for important elements */
+        .high-contrast {
+            color: var(--text-primary) !important;
+            font-weight: 500;
         }
-        
+
+        /* Neon glow effects (reduced for accessibility) */
+        .neon-text {
+            text-shadow: 0 0 5px currentColor;
+        }
+
+        .neon-border {
+            box-shadow: inset 0 0 10px rgba(102, 126, 234, 0.3), 0 0 10px rgba(102, 126, 234, 0.2);
+        }
+
+        /* Hover effects */
+        .hover-lift {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Animated gradient text */
+        .gradient-text {
+            background: var(--primary-gradient);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-shift 3s ease infinite;
+        }
+
+        .animations-enabled .gradient-text {
+            animation: gradient-shift 3s ease infinite;
+        }
+
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Status indicators */
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .status-online { background: #10b981; box-shadow: 0 0 10px #10b981; }
+        .status-busy { background: #ef4444; box-shadow: 0 0 10px #ef4444; }
+        .status-away { background: #f59e0b; box-shadow: 0 0 10px #f59e0b; }
+
+        /* Loading skeleton */
+        .skeleton {
+            background: linear-gradient(90deg, var(--bg-secondary) 25%, var(--bg-hover) 50%, var(--bg-secondary) 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
         /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 10px;
         }
-        
+
         ::-webkit-scrollbar-track {
-            background: #0f0f0f;
+            background: var(--bg-secondary);
         }
-        
+
         ::-webkit-scrollbar-thumb {
             background: linear-gradient(to bottom, #667eea, #764ba2);
-            border-radius: 5px;
+            border-radius: 10px;
         }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(to bottom, #764ba2, #f093fb);
-        }
-        
-        /* Particle effect container */
-        #particles-js {
+
+        /* Unique design element: Hexagon pattern */
+        .hex-pattern {
             position: absolute;
             width: 100%;
             height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 0;
+            opacity: 0.03;
+            background-image: 
+                radial-gradient(circle at 25% 25%, transparent 0%, transparent 50%, rgba(102, 126, 234, 0.1) 50%, rgba(102, 126, 234, 0.1) 100%),
+                radial-gradient(circle at 75% 75%, transparent 0%, transparent 50%, rgba(240, 147, 251, 0.1) 50%, rgba(240, 147, 251, 0.1) 100%);
+            background-size: 50px 50px;
+            z-index: -1;
         }
-        
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: rgba(102, 126, 234, 0.8);
-            border-radius: 50%;
-            animation: float-particle 20s infinite linear;
+
+        /* Unique interaction: Magnetic buttons */
+        .magnetic-button {
+            position: relative;
+            transition: transform 0.2s ease;
         }
-        
-        @keyframes float-particle {
+
+        /* Progress bar animation */
+        .progress-fill {
+            animation: progress-grow 2s ease-out;
+        }
+
+        @keyframes progress-grow {
+            from { width: 0%; }
+        }
+
+        /* Activity feed animation */
+        .activity-item {
+            animation: slide-in 0.3s ease-out;
+        }
+
+        @keyframes slide-in {
             from {
-                transform: translateY(100vh) rotate(0deg);
                 opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
+                transform: translateX(-20px);
             }
             to {
-                transform: translateY(-100vh) rotate(360deg);
-                opacity: 0;
+                opacity: 1;
+                transform: translateX(0);
             }
         }
-        
-        /* Tech grid pattern */
-        .tech-grid {
-            background-image: 
-                linear-gradient(rgba(102, 126, 234, 0.1) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(102, 126, 234, 0.1) 1px, transparent 1px);
-            background-size: 50px 50px;
+
+        /* Theme toggle button */
+        .theme-toggle {
+            position: fixed;
+            bottom: 8px;
+            left: 8px;
+            z-index: 50;
         }
-        
-        /* Hover card effect */
-        .hover-card {
-            transition: all 0.3s ease;
+
+        /* Animation toggle button */
+        .animation-toggle {
+            position: fixed;
+            bottom: 8px;
+            left: 80px;
+            z-index: 50;
+        }
+
+        /* Better focus indicators */
+        button:focus-visible,
+        a:focus-visible,
+        input:focus-visible {
+            outline: 2px solid #667eea;
+            outline-offset: 2px;
+        }
+
+        /* Improved card hover states */
+        .interactive-card {
             position: relative;
             overflow: hidden;
         }
-        
-        .hover-card::before {
+
+        .interactive-card::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transform: rotate(45deg);
-            transition: all 0.5s;
-            opacity: 0;
-        }
-        
-        .hover-card:hover::before {
-            animation: shine 0.5s ease-in-out;
-        }
-        
-        @keyframes shine {
-            0% {
-                transform: translateX(-100%) translateY(-100%) rotate(45deg);
-                opacity: 0;
-            }
-            50% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateX(100%) translateY(100%) rotate(45deg);
-                opacity: 0;
-            }
-        }
-        
-        /* Loading animation */
-        .loader {
-            width: 48px;
-            height: 48px;
-            border: 5px solid #FFF;
-            border-bottom-color: #667eea;
-            border-radius: 50%;
-            display: inline-block;
-            box-sizing: border-box;
-            animation: rotation 1s linear infinite;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
         }
 
-        @keyframes rotation {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
+        .interactive-card:hover::before {
+            left: 100%;
+        }
+
+        /* Unique floating labels */
+        .floating-label {
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: var(--bg-primary);
+            padding: 0 8px;
+            font-size: 12px;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        /* Collaborative cursor indicators */
+        .collab-cursor {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid;
+            pointer-events: none;
+            transition: all 0.1s ease;
+            z-index: 10;
+        }
+
+        .collab-cursor::after {
+            content: attr(data-name);
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            white-space: nowrap;
+            margin-top: 4px;
         }
     </style>
 </head>
-<body class="bg-black text-white overflow-x-hidden">
-    <!-- Preloader -->
-    <div id="preloader" class="fixed inset-0 z-50 flex items-center justify-center bg-black">
-        <div class="loader"></div>
-    </div>
+<body class="animations-enabled">
+    <!-- Skip to content link for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Animated background elements -->
+    <div class="hero-bg" role="presentation" aria-hidden="true"></div>
+    <div class="particle-container" id="particleContainer" role="presentation" aria-hidden="true"></div>
+    <div class="hex-pattern" role="presentation" aria-hidden="true"></div>
 
     <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-40 glass-dark">
+    <nav class="fixed top-0 w-full glass-dark z-50 border-b border-white/10" role="navigation" aria-label="Main navigation">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
+            <div class="flex justify-between items-center h-16">
                 <div class="flex items-center space-x-4">
-                    <div class="w-12 h-12 relative">
-                        <div class="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl pulse-glow"></div>
-                        <div class="relative w-full h-full flex items-center justify-center">
-                            <span class="text-white font-bold text-2xl">N</span>
+                    <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center neon-border hover:scale-110 transition-transform cursor-pointer" role="img" aria-label="NexusFlow logo">
+                        <span class="text-white font-bold text-xl neon-text">N</span>
+                    </div>
+                    <h1 class="text-2xl font-bold gradient-text">NexusFlow</h1>
+                </div>
+
+                <!-- Search with voice -->
+                <div class="flex-1 max-w-xl mx-8">
+                    <div class="relative">
+                        <label for="global-search" class="sr-only">Search NexusFlow</label>
+                        <input type="text" 
+                               id="global-search"
+                               placeholder="Ask me anything... (Try: 'Show me today's meetings')" 
+                               class="w-full bg-white/5 border border-white/10 rounded-full px-6 py-3 pr-20 focus:outline-none focus:border-purple-500 focus:bg-white/10 transition-all placeholder-gray-400 text-primary"
+                               aria-label="Global search">
+                        <button class="absolute right-2 top-1/2 -translate-y-1/2 p-2 hover:bg-white/10 rounded-full transition-colors" aria-label="Voice search">
+                            <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path>
+                            </svg>
+                        </button>
+                        <button class="absolute right-12 top-1/2 -translate-y-1/2 p-2 hover:bg-white/10 rounded-full transition-colors" aria-label="Search">
+                            <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- User actions -->
+                <div class="flex items-center space-x-4">
+                    <button class="relative p-2 hover:bg-white/10 rounded-lg transition-colors focus-visible" aria-label="Notifications (3 new)">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                        </svg>
+                        <span class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-xs font-bold" aria-hidden="true">3</span>
+                    </button>
+
+                    <div class="flex items-center space-x-3 p-2 hover:bg-white/10 rounded-lg transition-colors cursor-pointer focus-visible" role="button" tabindex="0" aria-label="User profile: Alex Chen, Available">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150" alt="Alex Chen's profile picture" class="w-10 h-10 rounded-full border-2 border-purple-500">
+                        <div>
+                            <p class="font-medium high-contrast">Alex Chen</p>
+                            <p class="text-xs text-secondary flex items-center">
+                                <span class="status-dot status-online mr-1" aria-hidden="true"></span>
+                                <span class="sr-only">Status:</span> Available
+                            </p>
                         </div>
                     </div>
-                    <span class="text-2xl font-bold gradient-text">NexusFlow</span>
-                </div>
-                
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="#home" class="hover:text-purple-400 transition-colors duration-300 font-medium">Home</a>
-                    <a href="#about" class="hover:text-purple-400 transition-colors duration-300 font-medium">About</a>
-                    <a href="#services" class="hover:text-purple-400 transition-colors duration-300 font-medium">Services</a>
-                    <a href="#portfolio" class="hover:text-purple-400 transition-colors duration-300 font-medium">Portfolio</a>
-                    <a href="#team" class="hover:text-purple-400 transition-colors duration-300 font-medium">Team</a>
-                    <a href="#contact" class="hover:text-purple-400 transition-colors duration-300 font-medium">Contact</a>
-                    <button class="px-6 py-2 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full hover:from-purple-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105">
-                        Get Started
-                    </button>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section id="home" class="relative min-h-screen flex items-center justify-center tech-grid">
-        <div id="particles-js"></div>
-        
-        <!-- Animated background shapes -->
-        <div class="absolute inset-0 overflow-hidden">
-            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600 rounded-full filter blur-3xl opacity-20 float"></div>
-            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-600 rounded-full filter blur-3xl opacity-20 float" style="animation-delay: 2s;"></div>
-            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-pink-600 rounded-full filter blur-3xl opacity-20 float" style="animation-delay: 4s;"></div>
-        </div>
-        
-        <div class="relative z-10 text-center max-w-6xl mx-auto px-4">
-            <h1 class="text-6xl md:text-8xl font-bold mb-6 opacity-0" id="hero-title">
-                <span class="block">Welcome to the</span>
-                <span class="block gradient-text">Future of Innovation</span>
-            </h1>
-            <p class="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto opacity-0" id="hero-subtitle">
-                We craft cutting-edge digital experiences that transform businesses and inspire audiences worldwide.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center opacity-0" id="hero-buttons">
-                <button class="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full text-lg font-semibold hover:from-purple-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl">
-                    Explore Our Work
-                </button>
-                <button class="px-8 py-4 border-2 border-purple-600 rounded-full text-lg font-semibold hover:bg-purple-600 transition-all duration-300 transform hover:scale-105">
-                    Watch Demo
-                </button>
-            </div>
-            
-            <!-- Stats -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20 opacity-0" id="hero-stats">
-                <div class="text-center">
-                    <div class="text-4xl font-bold gradient-text counter" data-target="500">0</div>
-                    <div class="text-gray-400 mt-2">Projects Completed</div>
+    <!-- Main Content -->
+    <main id="main-content" class="pt-20 pb-10 px-4 max-w-7xl mx-auto">
+        <!-- Hero Section -->
+        <section class="mb-12 text-center py-12" aria-labelledby="welcome-heading">
+            <h2 id="welcome-heading" class="text-5xl font-bold mb-4">
+                <span class="gradient-text">Welcome back, Alex!</span>
+            </h2>
+            <p class="text-xl text-secondary">It's <span id="currentDay"></span>, <span id="currentTime"></span></p>
+            <div class="mt-8 flex justify-center space-x-4 flex-wrap gap-4">
+                <div class="glass px-6 py-3 rounded-full hover-lift cursor-pointer interactive-card" tabindex="0" role="button" aria-label="Today's focus: Product Launch Prep">
+                    <span class="floating-label">Today's Focus</span>
+                    <p class="text-lg font-semibold high-contrast mt-2">Product Launch Prep</p>
                 </div>
-                <div class="text-center">
-                    <div class="text-4xl font-bold gradient-text counter" data-target="50">0</div>
-                    <div class="text-gray-400 mt-2">Team Members</div>
+                <div class="glass px-6 py-3 rounded-full hover-lift cursor-pointer interactive-card" tabindex="0" role="button" aria-label="Team mood: Energized">
+                    <span class="floating-label">Team Mood</span>
+                    <p class="text-lg font-semibold high-contrast mt-2">🔥 Energized</p>
                 </div>
-                <div class="text-center">
-                    <div class="text-4xl font-bold gradient-text counter" data-target="15">0</div>
-                    <div class="text-gray-400 mt-2">Years Experience</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-4xl font-bold gradient-text counter" data-target="98">0</div>
-                    <div class="text-gray-400 mt-2">Client Satisfaction %</div>
+                <div class="glass px-6 py-3 rounded-full hover-lift cursor-pointer interactive-card" tabindex="0" role="button" aria-label="Weather: Sunny, 72 degrees Fahrenheit">
+                    <span class="floating-label">Weather</span>
+                    <p class="text-lg font-semibold high-contrast mt-2">☀️ 72°F</p>
                 </div>
             </div>
-        </div>
-        
-        <!-- Scroll indicator -->
-        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 opacity-0" id="scroll-indicator">
-            <div class="w-6 h-10 border-2 border-purple-600 rounded-full flex justify-center">
-                <div class="w-1 h-3 bg-purple-600 rounded-full mt-2 animate-bounce"></div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- About Section -->
-    <section id="about" class="py-20 relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-5xl font-bold mb-4 gradient-text">About NexusFlow</h2>
-                <p class="text-xl text-gray-400 max-w-3xl mx-auto">
-                    We are a next-generation digital agency pushing the boundaries of what's possible in the digital realm.
-                </p>
-            </div>
-            
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div class="space-y-6">
-                    <div class="glass p-6 rounded-2xl hover-card">
-                        <h3 class="text-2xl font-bold mb-3 text-purple-400">Our Mission</h3>
-                        <p class="text-gray-300">To revolutionize digital experiences through innovative design, cutting-edge technology, and unparalleled creativity.</p>
-                    </div>
-                    <div class="glass p-6 rounded-2xl hover-card">
-                        <h3 class="text-2xl font-bold mb-3 text-blue-400">Our Vision</h3>
-                        <p class="text-gray-300">To be the global leader in digital transformation, empowering businesses to thrive in the digital age.</p>
-                    </div>
-                    <div class="glass p-6 rounded-2xl hover-card">
-                        <h3 class="text-2xl font-bold mb-3 text-pink-400">Our Values</h3>
-                        <p class="text-gray-300">Innovation, excellence, integrity, and collaboration drive everything we do.</p>
-                    </div>
+        <!-- Quick Actions Grid -->
+        <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12" aria-label="Quick actions">
+            <button class="glass p-6 rounded-2xl hover-lift cursor-pointer text-center interactive-card group focus-visible" aria-label="Book a meeting room, 3 rooms available">
+                <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl mx-auto mb-4 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
                 </div>
-                <div class="relative">
-                    <!-- Image Slider Container -->
-                    <div class="relative aspect-square rounded-2xl overflow-hidden">
-                        <div class="slider-container relative w-full h-full">
-                            <!-- Slide 1 -->
-                            <div class="slide absolute inset-0 opacity-100 transition-opacity duration-1000">
-                                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80" 
-                                     alt="Team collaboration" 
-                                     class="w-full h-full object-cover">
-                                <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/70 to-transparent">
-                                    <h4 class="text-white text-xl font-bold">Collaborative Innovation</h4>
-                                    <p class="text-gray-200 text-sm">Where ideas come to life through teamwork</p>
-                                </div>
+                <h3 class="font-semibold high-contrast">Book Meeting</h3>
+                <p class="text-sm text-secondary mt-1">3 rooms available</p>
+            </button>
+
+            <button class="glass p-6 rounded-2xl hover-lift cursor-pointer text-center interactive-card group focus-visible" aria-label="Submit expense report for quick reimbursement">
+                <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-teal-600 rounded-xl mx-auto mb-4 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="font-semibold high-contrast">Submit Expense</h3>
+                <p class="text-sm text-secondary mt-1">Quick reimbursement</p>
+            </button>
+
+            <button class="glass p-6 rounded-2xl hover-lift cursor-pointer text-center interactive-card group focus-visible" aria-label="Team directory with 127 colleagues">
+                <div class="w-16 h-16 bg-gradient-to-br from-pink-500 to-rose-600 rounded-xl mx-auto mb-4 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="font-semibold high-contrast">Team Directory</h3>
+                <p class="text-sm text-secondary mt-1">127 colleagues</p>
+            </button>
+
+            <button class="glass p-6 rounded-2xl hover-lift cursor-pointer text-center interactive-card group focus-visible" aria-label="AI Assistant for instant help">
+                <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-amber-600 rounded-xl mx-auto mb-4 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                    </svg>
+                </div>
+                <h3 class="font-semibold high-contrast">AI Assistant</h3>
+                <p class="text-sm text-secondary mt-1">Get instant help</p>
+            </button>
+        </section>
+
+        <!-- Dashboard Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Today's Schedule - Enhanced -->
+            <div class="glass rounded-2xl p-6 hover-lift" role="region" aria-labelledby="schedule-heading">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 id="schedule-heading" class="text-xl font-semibold flex items-center high-contrast">
+                        <span class="w-3 h-3 bg-blue-500 rounded-full mr-2" aria-hidden="true"></span>
+                        Today's Schedule
+                    </h3>
+                    <button class="text-sm text-blue-400 hover:text-blue-300 focus-visible" aria-label="View all schedule items">View All</button>
+                </div>
+
+                <div class="space-y-3">
+                    <!-- Enhanced schedule with multiple items -->
+                    <div class="p-4 bg-white/5 rounded-xl border-l-4 border-green-500 hover:bg-white/10 transition-colors cursor-pointer focus-visible" tabindex="0" role="article">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="font-medium high-contrast">Daily Standup</h4>
+                                <p class="text-sm text-secondary">with Engineering Team</p>
                             </div>
-                            
-                            <!-- Slide 2 -->
-                            <div class="slide absolute inset-0 opacity-0 transition-opacity duration-1000">
-                                <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=800&q=80" 
-                                     alt="Modern workspace" 
-                                     class="w-full h-full object-cover">
-                                <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/70 to-transparent">
-                                    <h4 class="text-white text-xl font-bold">State-of-the-Art Workspace</h4>
-                                    <p class="text-gray-200 text-sm">Designed for creativity and productivity</p>
-                                </div>
+                            <span class="text-sm text-green-400 font-semibold">9:00 AM</span>
+                        </div>
+                        <div class="mt-2 flex items-center space-x-2">
+                            <span class="text-xs bg-purple-500/20 text-purple-300 px-2 py-1 rounded">High Priority</span>
+                            <span class="text-xs text-secondary">Conference A</span>
+                        </div>
+                    </div>
+
+                    <div class="p-4 bg-white/5 rounded-xl border-l-4 border-blue-500 hover:bg-white/10 transition-colors cursor-pointer focus-visible" tabindex="0" role="article">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="font-medium high-contrast">Design Review</h4>
+                                <p class="text-sm text-secondary">Mobile App UI/UX</p>
                             </div>
-                            
-                            <!-- Slide 3 -->
-                            <div class="slide absolute inset-0 opacity-0 transition-opacity duration-1000">
-                                <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=80" 
-                                     alt="Team meeting" 
-                                     class="w-full h-full object-cover">
-                                <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/70 to-transparent">
-                                    <h4 class="text-white text-xl font-bold">Strategic Planning</h4>
-                                    <p class="text-gray-200 text-sm">Turning visions into actionable strategies</p>
-                                </div>
+                            <span class="text-sm text-blue-400 font-semibold">10:30 AM</span>
+                        </div>
+                        <div class="mt-2 flex items-center space-x-2">
+                            <span class="text-xs bg-blue-500/20 text-blue-300 px-2 py-1 rounded">Design</span>
+                            <span class="text-xs text-secondary">Zoom Call</span>
+                        </div>
+                    </div>
+
+                    <div class="p-4 bg-white/5 rounded-xl border-l-4 border-orange-500 hover:bg-white/10 transition-colors cursor-pointer focus-visible" tabindex="0" role="article">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="font-medium high-contrast">Lunch & Learn</h4>
+                                <p class="text-sm text-secondary">AI in Healthcare</p>
                             </div>
-                            
-                            <!-- Slide 4 -->
-                            <div class="slide absolute inset-0 opacity-0 transition-opacity duration-1000">
-                                <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=800&q=80" 
-                                     alt="Technology showcase" 
-                                     class="w-full h-full object-cover">
-                                <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/70 to-transparent">
-                                    <h4 class="text-white text-xl font-bold">Cutting-Edge Technology</h4>
-                                    <p class="text-gray-200 text-sm">Leveraging the latest tools and frameworks</p>
-                                </div>
+                            <span class="text-sm text-orange-400 font-semibold">12:00 PM</span>
+                        </div>
+                        <div class="mt-2 flex items-center space-x-2">
+                            <span class="text-xs bg-orange-500/20 text-orange-300 px-2 py-1 rounded">Learning</span>
+                            <span class="text-xs text-secondary">Cafeteria</span>
+                        </div>
+                    </div>
+
+                    <div class="p-4 bg-white/5 rounded-xl border-l-4 border-pink-500 hover:bg-white/10 transition-colors cursor-pointer focus-visible" tabindex="0" role="article">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="font-medium high-contrast">Client Presentation</h4>
+                                <p class="text-sm text-secondary">Q3 Progress Update</p>
                             </div>
+                            <span class="text-sm text-pink-400 font-semibold">2:00 PM</span>
                         </div>
-                        
-                        <!-- Slider Navigation -->
-                        <button id="prevSlide" class="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
-                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                            </svg>
-                        </button>
-                        <button id="nextSlide" class="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
-                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                            </svg>
-                        </button>
-                        
-                        <!-- Slider Indicators -->
-                        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
-                            <button class="slider-dot w-3 h-3 bg-white rounded-full transition-all duration-300" data-slide="0"></button>
-                            <button class="slider-dot w-3 h-3 bg-white/50 rounded-full transition-all duration-300" data-slide="1"></button>
-                            <button class="slider-dot w-3 h-3 bg-white/50 rounded-full transition-all duration-300" data-slide="2"></button>
-                            <button class="slider-dot w-3 h-3 bg-white/50 rounded-full transition-all duration-300" data-slide="3"></button>
+                        <div class="mt-2 flex items-center space-x-2">
+                            <span class="text-xs bg-pink-500/20 text-pink-300 px-2 py-1 rounded">Client</span>
+                            <span class="text-xs text-secondary">Conference B</span>
                         </div>
                     </div>
-                    <div class="absolute -bottom-6 -right-6 w-48 h-48 bg-gradient-to-br from-purple-600 to-blue-600 rounded-2xl -z-10 pulse-glow"></div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Services Section -->
-    <section id="services" class="py-20 tech-grid relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-5xl font-bold mb-4 gradient-text">Our Services</h2>
-                <p class="text-xl text-gray-400 max-w-3xl mx-auto">
-                    Comprehensive digital solutions tailored to elevate your brand
-                </p>
-            </div>
-            
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="glass p-8 rounded-2xl hover-card group hover:scale-105 transition-all duration-300">
-                    <div class="w-16 h-16 bg-gradient-to-br from-purple-600 to-blue-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4">Web Development</h3>
-                    <p class="text-gray-400 mb-4">Custom websites and web applications built with cutting-edge technologies for optimal performance.</p>
-                    <a href="#" class="text-purple-400 hover:text-purple-300 inline-flex items-center group">
-                        Learn more 
-                        <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                        </svg>
-                    </a>
-                </div>
-                
-                <div class="glass p-8 rounded-2xl hover-card group hover:scale-105 transition-all duration-300">
-                    <div class="w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4">Mobile Apps</h3>
-                    <p class="text-gray-400 mb-4">Native and cross-platform mobile applications that deliver exceptional user experiences.</p>
-                    <a href="#" class="text-purple-400 hover:text-purple-300 inline-flex items-center group">
-                        Learn more 
-                        <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                        </svg>
-                    </a>
-                </div>
-                
-                <div class="glass p-8 rounded-2xl hover-card group hover:scale-105 transition-all duration-300">
-                    <div class="w-16 h-16 bg-gradient-to-br from-pink-600 to-purple-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4">UI/UX Design</h3>
-                    <p class="text-gray-400 mb-4">Beautiful, intuitive designs that captivate users and drive engagement across all platforms.</p>
-                    <a href="#" class="text-purple-400 hover:text-purple-300 inline-flex items-center group">
-                        Learn more 
-                        <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Portfolio Section -->
-    <section id="portfolio" class="py-20 relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-5xl font-bold mb-4 gradient-text">Our Portfolio</h2>
-                <p class="text-xl text-gray-400 max-w-3xl mx-auto">
-                    Explore our latest projects and see how we've helped brands achieve digital excellence
-                </p>
-            </div>
-            
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Portfolio Item 1 -->
-                <div class="group relative overflow-hidden rounded-2xl">
-                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80" 
-                         alt="Project 1" 
-                         class="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <div class="absolute bottom-0 left-0 right-0 p-6">
-                            <h3 class="text-2xl font-bold mb-2">E-Commerce Platform</h3>
-                            <p class="text-gray-300 mb-4">Revolutionary online shopping experience with AI-powered recommendations</p>
-                            <button class="px-4 py-2 bg-purple-600 rounded-lg hover:bg-purple-700 transition-colors">
-                                View Case Study
-                            </button>
+                    <div class="p-4 bg-white/5 rounded-xl border-l-4 border-purple-500 hover:bg-white/10 transition-colors cursor-pointer focus-visible" tabindex="0" role="article">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="font-medium high-contrast">Team Retrospective</h4>
+                                <p class="text-sm text-secondary">Sprint 23 Review</p>
+                            </div>
+                            <span class="text-sm text-purple-400 font-semibold">4:00 PM</span>
                         </div>
-                    </div>
-                </div>
-                
-                <!-- Portfolio Item 2 -->
-                <div class="group relative overflow-hidden rounded-2xl">
-                    <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&q=80" 
-                         alt="Project 2" 
-                         class="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <div class="absolute bottom-0 left-0 right-0 p-6">
-                            <h3 class="text-2xl font-bold mb-2">Mobile Banking App</h3>
-                            <p class="text-gray-300 mb-4">Secure, intuitive banking at your fingertips with biometric authentication</p>
-                            <button class="px-4 py-2 bg-purple-600 rounded-lg hover:bg-purple-700 transition-colors">
-                                View Case Study
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Portfolio Item 3 -->
-                <div class="group relative overflow-hidden rounded-2xl">
-                    <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?w=800&q=80" 
-                         alt="Project 3" 
-                         class="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <div class="absolute bottom-0 left-0 right-0 p-6">
-                            <h3 class="text-2xl font-bold mb-2">SaaS Dashboard</h3>
-                            <p class="text-gray-300 mb-4">Real-time analytics platform with stunning data visualizations</p>
-                            <button class="px-4 py-2 bg-purple-600 rounded-lg hover:bg-purple-700 transition-colors">
-                                View Case Study
-                            </button>
+                        <div class="mt-2 flex items-center space-x-2">
+                            <span class="text-xs bg-purple-500/20 text-purple-300 px-2 py-1 rounded">Team</span>
+                            <span class="text-xs text-secondary">Virtual</span>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Team Section -->
-    <section id="team" class="py-20 tech-grid relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-5xl font-bold mb-4 gradient-text">Meet Our Team</h2>
-                <p class="text-xl text-gray-400 max-w-3xl mx-auto">
-                    Brilliant minds working together to create digital masterpieces
-                </p>
-            </div>
-            
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Team Member 1 -->
-                <div class="text-center group">
-                    <div class="relative mb-6 overflow-hidden rounded-2xl">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" 
-                             alt="CEO" 
-                             class="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-purple-600/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    </div>
-                    <h3 class="text-xl font-bold mb-1">Alexander Chen</h3>
-                    <p class="text-purple-400 mb-3">CEO & Founder</p>
-                    <div class="flex justify-center space-x-3">
-                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-purple-600 transition-colors">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
-                            </svg>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-purple-600 transition-colors">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                            </svg>
-                        </a>
-                    </div>
+            <!-- Live Activity Feed -->
+            <div class="glass rounded-2xl p-6 hover-lift" role="region" aria-labelledby="activity-heading">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 id="activity-heading" class="text-xl font-semibold flex items-center high-contrast">
+                        Live Feed
+                        <span class="ml-2 text-xs bg-green-500/20 text-green-300 px-2 py-1 rounded">Real-time</span>
+                    </h3>
                 </div>
-                
-                <!-- Team Member 2 -->
-                <div class="text-center group">
-                    <div class="relative mb-6 overflow-hidden rounded-2xl">
-                        <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&q=80" 
-                             alt="CTO" 
-                             class="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-purple-600/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    </div>
-                    <h3 class="text-xl font-bold mb-1">Sarah Williams</h3>
-                    <p class="text-purple-400 mb-3">CTO</p>
-                    <div class="flex justify-center space-x-3">
-                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-purple-600 transition-colors">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
-                            </svg>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-purple-600 transition-colors">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- Team Member 3 -->
-                <div class="text-center group">
-                    <div class="relative mb-6 overflow-hidden rounded-2xl">
-                        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&q=80" 
-                             alt="Lead Designer" 
-                             class="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-purple-600/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    </div>
-                    <h3 class="text-xl font-bold mb-1">Michael Zhang</h3>
-                    <p class="text-purple-400 mb-3">Lead Designer</p>
-                    <div class="flex justify-center space-x-3">
-                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-purple-600 transition-colors">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
-                            </svg>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-purple-600 transition-colors">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- Team Member 4 -->
-                <div class="text-center group">
-                    <div class="relative mb-6 overflow-hidden rounded-2xl">
-                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80" 
-                             alt="Lead Developer" 
-                             class="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-purple-600/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    </div>
-                    <h3 class="text-xl font-bold mb-1">Emily Rodriguez</h3>
-                    <p class="text-purple-400 mb-3">Lead Developer</p>
-                    <div class="flex justify-center space-x-3">
-                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-purple-600 transition-colors">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
-                            </svg>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-purple-600 transition-colors">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Testimonials Section -->
-    <section class="py-20 relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-5xl font-bold mb-4 gradient-text">Client Testimonials</h2>
-                <p class="text-xl text-gray-400 max-w-3xl mx-auto">
-                    Don't just take our word for it - hear what our clients have to say
-                </p>
-            </div>
-            
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="glass p-8 rounded-2xl hover-card">
-                    <div class="flex mb-4">
-                        <svg class="w-6 h-6 text-purple-400" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
-                        </svg>
-                        <svg class="w-6 h-6 text-purple-400" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
-                        </svg>
-                        <svg class="w-6 h-6 text-purple-400" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
-                        </svg>
-                        <svg class="w-6 h-6 text-purple-400" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
-                        </svg>
-                        <svg class="w-6 h-6 text-purple-400" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
-                        </svg>
+                <div class="space-y-4 max-h-96 overflow-y-auto" role="feed" aria-label="Live activity feed">
+                    <div class="flex items-start space-x-3 p-3 rounded-lg hover:bg-white/5 transition-colors activity-item" role="article">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=50" class="w-8 h-8 rounded-full" alt="Sarah Johnson">
+                        <div class="flex-1">
+                            <p class="text-sm"><span class="font-medium text-blue-400">Sarah Johnson</span> completed <span class="text-green-400">Q3 Report</span></p>
+                            <p class="text-xs text-secondary">just now</p>
+                        </div>
                     </div>
-                    <p class="text-gray-300 mb-6">"NexusFlow transformed our online presence completely. Their innovative approach and attention to detail resulted in a 200% increase in our conversion rate."</p>
-                    <div class="flex items-center">
-                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80" 
-                             alt="Client" 
-                             class="w-12 h-12 rounded-full mr-4">
+
+                    <div class="flex items-start space-x-3 p-3 rounded-lg hover:bg-white/5 transition-colors activity-item" role="article">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=50" class="w-8 h-8 rounded-full" alt="Mike Chen">
+                        <div class="flex-1">
+                            <p class="text-sm"><span class="font-medium text-purple-400">Mike Chen</span> joined <span class="text-orange-400">Design Review</span></p>
+                            <p class="text-xs text-secondary">2 minutes ago</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-3 p-3 rounded-lg hover:bg-white/5 transition-colors activity-item" role="article">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=50" class="w-8 h-8 rounded-full" alt="David Park">
+                        <div class="flex-1">
+                            <p class="text-sm"><span class="font-medium text-pink-400">David Park</span> shared <span class="text-blue-400">Mobile App Mockups</span></p>
+                            <p class="text-xs text-secondary">5 minutes ago</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-3 p-3 rounded-lg hover:bg-white/5 transition-colors activity-item" role="article">
+                        <div class="w-8 h-8 bg-gradient-to-br from-green-500 to-teal-600 rounded-full flex items-center justify-center" aria-hidden="true">
+                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm"><span class="font-medium text-green-400">System Update</span> Deployment successful</p>
+                            <p class="text-xs text-secondary">10 minutes ago</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-3 p-3 rounded-lg hover:bg-white/5 transition-colors activity-item" role="article">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=50" class="w-8 h-8 rounded-full" alt="Emma Wilson">
+                        <div class="flex-1">
+                            <p class="text-sm"><span class="font-medium text-yellow-400">Emma Wilson</span> created <span class="text-purple-400">New Task Board</span></p>
+                            <p class="text-xs text-secondary">15 minutes ago</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Spotlight & Stats -->
+            <div class="space-y-6">
+                <!-- Employee of the Month -->
+                <div class="glass rounded-2xl p-6 hover-lift text-center" role="region" aria-labelledby="spotlight-heading">
+                    <h3 id="spotlight-heading" class="text-lg font-semibold mb-4 high-contrast">🌟 Employee Spotlight</h3>
+                    <div class="relative inline-block mb-4">
+                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150" class="w-24 h-24 rounded-full mx-auto" alt="Emma Watson, Employee of the Month">
+                        <div class="absolute -bottom-2 -right-2 w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center" aria-hidden="true">
+                            <span class="text-white text-sm">👑</span>
+                        </div>
+                    </div>
+                    <h4 class="font-semibold text-yellow-400">Emma Watson</h4>
+                    <p class="text-sm text-secondary">Lead Designer</p>
+                    <p class="text-sm mt-2 text-primary">"Outstanding work on the rebrand project!"</p>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="glass rounded-2xl p-6 hover-lift" role="region" aria-labelledby="stats-heading">
+                    <h3 id="stats-heading" class="text-lg font-semibold mb-4 high-contrast">Company Pulse</h3>
+                    <div class="space-y-4">
                         <div>
-                            <h4 class="font-bold">David Thompson</h4>
-                            <p class="text-sm text-gray-400">CEO, TechStart Inc.</p>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-sm text-secondary">Revenue Growth</span>
+                                <span class="text-sm font-bold text-green-400">+32%</span>
+                            </div>
+                            <div class="w-full bg-gray-700 rounded-full h-2" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                                <div class="bg-gradient-to-r from-green-500 to-emerald-600 h-2 rounded-full progress-fill" style="width: 75%"></div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                
-                <div class="glass p-8 rounded-2xl hover-card">
-                    <div class="flex mb-4">
-                        <svg class="w-6 h-6 text-purple-400" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
-                        </svg>
-                        <svg class="w-6 h-6 text-purple-400" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
-                        </svg>
-                        <svg class="w-6 h-6 text-purple-400" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
-                        </svg>
-                        <svg class="w-6 h-6 text-purple-400" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
-                        </svg>
-                        <svg class="w-6 h-6 text-purple-400" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
-                        </svg>
-                    </div>
-                    <p class="text-gray-300 mb-6">"Working with NexusFlow was an absolute pleasure. They delivered beyond our expectations and created a platform that our users love."</p>
-                    <div class="flex items-center">
-                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80" 
-                             alt="Client" 
-                             class="w-12 h-12 rounded-full mr-4">
+
                         <div>
-                            <h4 class="font-bold">Lisa Anderson</h4>
-                            <p class="text-sm text-gray-400">CMO, Global Retail Co.</p>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-sm text-secondary">Team Happiness</span>
+                                <span class="text-sm font-bold text-blue-400">94%</span>
+                            </div>
+                            <div class="w-full bg-gray-700 rounded-full h-2" role="progressbar" aria-valuenow="94" aria-valuemin="0" aria-valuemax="100">
+                                <div class="bg-gradient-to-r from-blue-500 to-cyan-600 h-2 rounded-full progress-fill" style="width: 94%"></div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                
-                <div class="glass p-8 rounded-2xl hover-card">
-                    <div class="flex mb-4">
-                        <svg class="w-6 h-6 text-purple-400" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
-                        </svg>
-                        <svg class="w-6 h-6 text-purple-400" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
-                        </svg>
-                        <svg class="w-6 h-6 text-purple-400" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
-                        </svg>
-                        <svg class="w-6 h-6 text-purple-400" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
-                        </svg>
-                        <svg class="w-6 h-6 text-purple-400" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
-                        </svg>
-                    </div>
-                    <p class="text-gray-300 mb-6">"The team at NexusFlow is exceptional. They understood our vision and created something truly remarkable. Highly recommended!"</p>
-                    <div class="flex items-center">
-                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80" 
-                             alt="Client" 
-                             class="w-12 h-12 rounded-full mr-4">
+
                         <div>
-                            <h4 class="font-bold">Mark Johnson</h4>
-                            <p class="text-sm text-gray-400">Founder, StartupHub</p>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-sm text-secondary">Projects On Track</span>
+                                <span class="text-sm font-bold text-purple-400">87%</span>
+                            </div>
+                            <div class="w-full bg-gray-700 rounded-full h-2" role="progressbar" aria-valuenow="87" aria-valuemin="0" aria-valuemax="100">
+                                <div class="bg-gradient-to-r from-purple-500 to-pink-600 h-2 rounded-full progress-fill" style="width: 87%"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="py-20 tech-grid relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-5xl font-bold mb-4 gradient-text">Get In Touch</h2>
-                <p class="text-xl text-gray-400 max-w-3xl mx-auto">
-                    Ready to start your next project? Let's create something amazing together
-                </p>
-            </div>
-            
-            <div class="grid md:grid-cols-2 gap-12">
-                <div class="space-y-8">
-                    <div>
-                        <h3 class="text-2xl font-bold mb-4">Let's Connect</h3>
-                        <p class="text-gray-400 mb-8">
-                            We're here to help bring your vision to life. Reach out to us and let's discuss how we can transform your business.
-                        </p>
+        <!-- Enhanced Team Workspace -->
+        <section class="mt-12 glass rounded-2xl p-8 hover-lift" role="region" aria-labelledby="workspace-heading">
+            <h3 id="workspace-heading" class="text-2xl font-semibold mb-6 high-contrast">👥 Team Workspace</h3>
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Active Collaborators -->
+                <div class="bg-white/5 rounded-xl p-6">
+                    <h4 class="font-semibold mb-4 flex items-center high-contrast">
+                        <span class="w-2 h-2 bg-green-400 rounded-full mr-2" aria-hidden="true"></span>
+                        Active Collaborators
+                    </h4>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=50" class="w-8 h-8 rounded-full" alt="Sarah Williams">
+                                <div>
+                                    <p class="text-sm font-medium high-contrast">Sarah Williams</p>
+                                    <p class="text-xs text-secondary">Editing design specs...</p>
+                                </div>
+                            </div>
+                            <span class="text-xs text-green-400">Active now</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=50" class="w-8 h-8 rounded-full" alt="Michael Chen">
+                                <div>
+                                    <p class="text-sm font-medium high-contrast">Michael Chen</p>
+                                    <p class="text-xs text-secondary">Reviewing pull request...</p>
+                                </div>
+                            </div>
+                            <span class="text-xs text-blue-400">2 min ago</span>
+                        </div>
                     </div>
                     
-                    <div class="space-y-4">
-                        <div class="flex items-center space-x-4">
-                            <div class="w-12 h-12 bg-gradient-to-br from-purple-600 to-blue-600 rounded-xl flex items-center justify-center">
-                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-400">Email</p>
-                                <p class="font-semibold">hello@nexusflow.com</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-center space-x-4">
-                            <div class="w-12 h-12 bg-gradient-to-br from-purple-600 to-blue-600 rounded-xl flex items-center justify-center">
-                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-400">Phone</p>
-                                <p class="font-semibold">+1 (555) 123-4567</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-center space-x-4">
-                            <div class="w-12 h-12 bg-gradient-to-br from-purple-600 to-blue-600 rounded-xl flex items-center justify-center">
-                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-400">Location</p>
-                                <p class="font-semibold">San Francisco, CA</p>
-                            </div>
-                        </div>
+                    <!-- Collaborative cursor indicators -->
+                    <div class="mt-4 relative h-20 bg-white/5 rounded-lg p-2">
+                        <div class="collab-cursor" style="top: 20%; left: 30%; border-color: #10b981;" data-name="Sarah"></div>
+                        <div class="collab-cursor" style="top: 60%; left: 70%; border-color: #3b82f6;" data-name="Michael"></div>
+                        <p class="text-xs text-secondary mt-6 text-center">Live collaboration view</p>
                     </div>
                 </div>
-                
-                <div class="glass p-8 rounded-2xl">
-                    <form class="space-y-6">
-                        <div>
-                            <label class="block text-sm font-medium mb-2">Name</label>
-                            <input type="text" class="w-full px-4 py-3 bg-gray-900/50 border border-gray-700 rounded-lg focus:border-purple-600 focus:outline-none transition-colors" placeholder="Your Name">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium mb-2">Email</label>
-                            <input type="email" class="w-full px-4 py-3 bg-gray-900/50 border border-gray-700 rounded-lg focus:border-purple-600 focus:outline-none transition-colors" placeholder="your@email.com">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium mb-2">Message</label>
-                            <textarea rows="4" class="w-full px-4 py-3 bg-gray-900/50 border border-gray-700 rounded-lg focus:border-purple-600 focus:outline-none transition-colors" placeholder="Tell us about your project"></textarea>
-                        </div>
-                        
-                        <button type="submit" class="w-full px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg text-lg font-semibold hover:from-purple-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105">
-                            Send Message
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Footer -->
-    <footer class="py-12 border-t border-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-4 gap-8 mb-8">
-                <div>
-                    <div class="flex items-center space-x-2 mb-4">
-                        <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
-                            <span class="text-white font-bold text-xl">N</span>
+                <!-- Shared Documents -->
+                <div class="bg-white/5 rounded-xl p-6">
+                    <h4 class="font-semibold mb-4 high-contrast">📄 Recent Documents</h4>
+                    <div class="space-y-3">
+                        <a href="#" class="block p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors focus-visible">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-8 h-8 bg-blue-500/20 rounded flex items-center justify-center">
+                                        <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium high-contrast">Product Roadmap 2025</p>
+                                        <p class="text-xs text-secondary">Updated 2 hours ago</p>
+                                    </div>
+                                </div>
+                                <span class="text-xs text-blue-400">View</span>
+                            </div>
+                        </a>
+                        
+                        <a href="#" class="block p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors focus-visible">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-8 h-8 bg-green-500/20 rounded flex items-center justify-center">
+                                        <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium high-contrast">Q3 Financial Report</p>
+                                        <p class="text-xs text-secondary">Shared by Finance</p>
+                                    </div>
+                                </div>
+                                <span class="text-xs text-green-400">View</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Task Board Preview -->
+                <div class="bg-white/5 rounded-xl p-6">
+                    <h4 class="font-semibold mb-4 high-contrast">📋 Active Tasks</h4>
+                    <div class="space-y-3">
+                        <div class="p-3 bg-white/5 rounded-lg border-l-4 border-purple-500">
+                            <p class="text-sm font-medium high-contrast">Complete API Documentation</p>
+                            <div class="flex items-center justify-between mt-2">
+                                <span class="text-xs text-secondary">Due tomorrow</span>
+                                <div class="flex -space-x-2">
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=30" class="w-6 h-6 rounded-full border-2 border-gray-800" alt="Assignee">
+                                </div>
+                            </div>
                         </div>
-                        <span class="text-xl font-bold gradient-text">NexusFlow</span>
+                        
+                        <div class="p-3 bg-white/5 rounded-lg border-l-4 border-blue-500">
+                            <p class="text-sm font-medium high-contrast">Review Design Mockups</p>
+                            <div class="flex items-center justify-between mt-2">
+                                <span class="text-xs text-secondary">Due in 3 days</span>
+                                <div class="flex -space-x-2">
+                                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=30" class="w-6 h-6 rounded-full border-2 border-gray-800" alt="Assignee">
+                                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=30" class="w-6 h-6 rounded-full border-2 border-gray-800" alt="Assignee">
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <p class="text-gray-400 text-sm">
-                        Pioneering the future of digital innovation, one project at a time.
-                    </p>
+                    <button class="mt-4 w-full py-2 bg-purple-500/20 text-purple-400 rounded-lg hover:bg-purple-500/30 transition-colors text-sm font-medium focus-visible">
+                        View All Tasks →
+                    </button>
                 </div>
-                
-                <div>
-                    <h4 class="font-semibold mb-4">Company</h4>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li><a href="#" class="hover:text-purple-400 transition-colors">About Us</a></li>
-                        <li><a href="#" class="hover:text-purple-400 transition-colors">Careers</a></li>
-                        <li><a href="#" class="hover:text-purple-400 transition-colors">Press Kit</a></li>
-                        <li><a href="#" class="hover:text-purple-400 transition-colors">Contact</a></li>
-                    </ul>
+            </div>
+        </section>
+
+        <!-- Innovation Lab -->
+        <section class="mt-12 glass rounded-2xl p-8 hover-lift" role="region" aria-labelledby="innovation-heading">
+            <div class="flex justify-between items-center mb-6">
+                <h3 id="innovation-heading" class="text-2xl font-semibold gradient-text">🚀 Innovation Lab</h3>
+                <button class="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-600 rounded-lg hover:scale-105 transition-transform focus-visible" aria-label="Submit a new idea">
+                    Submit Idea
+                </button>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white/5 rounded-xl p-6 border border-purple-500/20 hover:border-purple-500/50 transition-colors cursor-pointer interactive-card focus-visible" tabindex="0" role="article">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-2xl" aria-hidden="true">🤖</span>
+                        <span class="text-xs bg-purple-500/20 text-purple-300 px-2 py-1 rounded">AI/ML</span>
+                    </div>
+                    <h4 class="font-semibold mb-2 high-contrast">Smart Meeting Assistant</h4>
+                    <p class="text-sm text-secondary mb-4">AI-powered note-taking and action item extraction</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex -space-x-2">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=50" class="w-6 h-6 rounded-full border-2 border-gray-800" alt="Contributor">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=50" class="w-6 h-6 rounded-full border-2 border-gray-800" alt="Contributor">
+                        </div>
+                        <span class="text-xs text-secondary">12 votes</span>
+                    </div>
                 </div>
-                
-                <div>
-                    <h4 class="font-semibold mb-4">Services</h4>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li><a href="#" class="hover:text-purple-400 transition-colors">Web Development</a></li>
-                        <li><a href="#" class="hover:text-purple-400 transition-colors">Mobile Apps</a></li>
-                        <li><a href="#" class="hover:text-purple-400 transition-colors">UI/UX Design</a></li>
-                        <li><a href="#" class="hover:text-purple-400 transition-colors">Consulting</a></li>
-                    </ul>
+
+                <div class="bg-white/5 rounded-xl p-6 border border-green-500/20 hover:border-green-500/50 transition-colors cursor-pointer interactive-card focus-visible" tabindex="0" role="article">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-2xl" aria-hidden="true">🌱</span>
+                        <span class="text-xs bg-green-500/20 text-green-300 px-2 py-1 rounded">Sustainability</span>
+                    </div>
+                    <h4 class="font-semibold mb-2 high-contrast">Carbon Tracker</h4>
+                    <p class="text-sm text-secondary mb-4">Monitor and reduce office carbon footprint</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex -space-x-2">
+                            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=50" class="w-6 h-6 rounded-full border-2 border-gray-800" alt="Contributor">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=50" class="w-6 h-6 rounded-full border-2 border-gray-800" alt="Contributor">
+                            <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=50" class="w-6 h-6 rounded-full border-2 border-gray-800" alt="Contributor">
+                        </div>
+                        <span class="text-xs text-secondary">23 votes</span>
+                    </div>
                 </div>
-                
-                <div>
-                    <h4 class="font-semibold mb-4">Follow Us</h4>
-                    <div class="flex space-x-4">
-                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-purple-600 transition-colors">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
-                            </svg>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-purple-600 transition-colors">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
-                            </svg>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-purple-600 transition-colors">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                            </svg>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-purple-600 transition-colors">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                            </svg>
-                        </a>
+
+                <div class="bg-white/5 rounded-xl p-6 border border-blue-500/20 hover:border-blue-500/50 transition-colors cursor-pointer interactive-card focus-visible" tabindex="0" role="article">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-2xl" aria-hidden="true">🎮</span>
+                        <span class="text-xs bg-blue-500/20 text-blue-300 px-2 py-1 rounded">Wellness</span>
+                    </div>
+                    <h4 class="font-semibold mb-2 high-contrast">VR Break Rooms</h4>
+                    <p class="text-sm text-secondary mb-4">Virtual reality spaces for remote team bonding</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex -space-x-2">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=50" class="w-6 h-6 rounded-full border-2 border-gray-800" alt="Contributor">
+                        </div>
+                        <span class="text-xs text-secondary">8 votes</span>
                     </div>
                 </div>
             </div>
-            
-            <div class="pt-8 border-t border-gray-800 text-center">
-                <p class="text-sm text-gray-400">
-                    © 2025 NexusFlow. All rights reserved. | 
-                    <a href="#" class="hover:text-purple-400 transition-colors">Privacy Policy</a> | 
-                    <a href="#" class="hover:text-purple-400 transition-colors">Terms of Service</a>
-                </p>
+        </section>
+
+        <!-- Upcoming Events -->
+        <section class="mt-12" role="region" aria-labelledby="events-heading">
+            <h3 id="events-heading" class="text-2xl font-semibold mb-6 high-contrast">📅 Upcoming Events</h3>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="glass rounded-2xl p-6 hover-lift cursor-pointer border-t-4 border-purple-500 interactive-card focus-visible" tabindex="0" role="article">
+                    <div class="text-3xl mb-4" aria-hidden="true">🎉</div>
+                    <h4 class="font-semibold mb-2 high-contrast">Summer Party</h4>
+                    <p class="text-sm text-secondary mb-2">Rooftop BBQ & Games</p>
+                    <p class="text-xs text-purple-400">Friday, Aug 2 • 5:00 PM</p>
+                </div>
+
+                <div class="glass rounded-2xl p-6 hover-lift cursor-pointer border-t-4 border-green-500 interactive-card focus-visible" tabindex="0" role="article">
+                    <div class="text-3xl mb-4" aria-hidden="true">🎓</div>
+                    <h4 class="font-semibold mb-2 high-contrast">Tech Talk</h4>
+                    <p class="text-sm text-secondary mb-2">AI in Production</p>
+                    <p class="text-xs text-green-400">Tuesday, Aug 6 • 2:00 PM</p>
+                </div>
+
+                <div class="glass rounded-2xl p-6 hover-lift cursor-pointer border-t-4 border-orange-500 interactive-card focus-visible" tabindex="0" role="article">
+                    <div class="text-3xl mb-4" aria-hidden="true">🏃‍♀️</div>
+                    <h4 class="font-semibold mb-2 high-contrast">Wellness Week</h4>
+                    <p class="text-sm text-secondary mb-2">Yoga, Meditation & More</p>
+                    <p class="text-xs text-orange-400">Aug 12-16 • All Day</p>
+                </div>
+
+                <div class="glass rounded-2xl p-6 hover-lift cursor-pointer border-t-4 border-pink-500 interactive-card focus-visible" tabindex="0" role="article">
+                    <div class="text-3xl mb-4" aria-hidden="true">🚀</div>
+                    <h4 class="font-semibold mb-2 high-contrast">Hackathon</h4>
+                    <p class="text-sm text-secondary mb-2">48-hour Innovation Sprint</p>
+                    <p class="text-xs text-pink-400">Aug 23-25 • All Weekend</p>
+                </div>
             </div>
-        </div>
-    </footer>
+        </section>
+    </main>
+
+    <!-- Theme toggle button -->
+    <button class="theme-toggle fixed bottom-8 left-8 w-12 h-12 bg-white/10 backdrop-blur rounded-full flex items-center justify-center hover:bg-white/20 transition-colors focus-visible" aria-label="Toggle theme">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+    </button>
+
+    <!-- Animation toggle button -->
+    <button class="animation-toggle fixed bottom-8 left-24 w-12 h-12 bg-white/10 backdrop-blur rounded-full flex items-center justify-center hover:bg-white/20 transition-colors focus-visible" aria-label="Toggle animations">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+    </button>
 
     <script>
-        // Image Slider Functionality
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.slide');
-        const dots = document.querySelectorAll('.slider-dot');
-        const totalSlides = slides.length;
-        
-        function showSlide(index) {
-            // Hide all slides
-            slides.forEach((slide, i) => {
-                slide.style.opacity = '0';
-                dots[i].classList.remove('bg-white');
-                dots[i].classList.add('bg-white/50');
+        // Initialize time display
+        function updateTime() {
+            const now = new Date();
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            document.getElementById('currentDay').textContent = days[now.getDay()];
+            document.getElementById('currentTime').textContent = now.toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: true 
             });
-            
-            // Show current slide
-            slides[index].style.opacity = '1';
-            dots[index].classList.remove('bg-white/50');
-            dots[index].classList.add('bg-white');
-            
-            currentSlide = index;
         }
-        
-        function nextSlide() {
-            const next = (currentSlide + 1) % totalSlides;
-            showSlide(next);
-        }
-        
-        function prevSlide() {
-            const prev = (currentSlide - 1 + totalSlides) % totalSlides;
-            showSlide(prev);
-        }
-        
-        // Slider event listeners
-        document.getElementById('nextSlide').addEventListener('click', nextSlide);
-        document.getElementById('prevSlide').addEventListener('click', prevSlide);
-        
-        // Dot navigation
-        dots.forEach((dot, index) => {
-            dot.addEventListener('click', () => showSlide(index));
-        });
-        
-        // Auto-play slider
-        let sliderInterval = setInterval(nextSlide, 5000);
-        
-        // Pause on hover
-        const sliderContainer = document.querySelector('.slider-container');
-        sliderContainer.addEventListener('mouseenter', () => {
-            clearInterval(sliderInterval);
-        });
-        
-        sliderContainer.addEventListener('mouseleave', () => {
-            sliderInterval = setInterval(nextSlide, 5000);
-        });
-        
-        // Touch/Swipe support for mobile
-        let touchStartX = 0;
-        let touchEndX = 0;
-        
-        sliderContainer.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        });
-        
-        sliderContainer.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        });
-        
-        function handleSwipe() {
-            if (touchEndX < touchStartX - 50) {
-                nextSlide();
-            }
-            if (touchEndX > touchStartX + 50) {
-                prevSlide();
-            }
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // Check for reduced motion preference
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion) {
+            document.body.classList.remove('animations-enabled');
         }
 
-        // Preloader
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('preloader').style.display = 'none';
-            }, 1000);
-        });
-
-        // GSAP Animations
-        gsap.registerPlugin(ScrollTrigger, TextPlugin);
-
-        // Hero animations
-        const heroTL = gsap.timeline({ delay: 1.2 });
-        
-        heroTL
-            .to('#hero-title', { 
-                opacity: 1, 
-                y: 0, 
-                duration: 1.2, 
-                ease: 'power3.out' 
-            })
-            .to('#hero-subtitle', { 
-                opacity: 1, 
-                y: 0, 
-                duration: 1, 
-                ease: 'power3.out' 
-            }, '-=0.8')
-            .to('#hero-buttons', { 
-                opacity: 1, 
-                y: 0, 
-                duration: 1, 
-                ease: 'power3.out' 
-            }, '-=0.6')
-            .to('#hero-stats', { 
-                opacity: 1, 
-                y: 0, 
-                duration: 1, 
-                ease: 'power3.out' 
-            }, '-=0.6')
-            .to('#scroll-indicator', { 
-                opacity: 1, 
-                duration: 1 
-            }, '-=0.4');
-
-        // Counter animation
-        const counters = document.querySelectorAll('.counter');
-        
-        counters.forEach(counter => {
-            const updateCount = () => {
-                const target = +counter.getAttribute('data-target');
-                const count = +counter.innerText;
-                const increment = target / 100;
-                
-                if (count < target) {
-                    counter.innerText = Math.ceil(count + increment);
-                    setTimeout(updateCount, 20);
-                } else {
-                    counter.innerText = target;
-                }
-            };
-            
-            ScrollTrigger.create({
-                trigger: counter,
-                start: 'top 80%',
-                onEnter: updateCount,
-                once: true
-            });
-        });
-
-        // Scroll animations for sections
-        gsap.utils.toArray('section').forEach(section => {
-            const elements = section.querySelectorAll('h2, h3, p, .glass, .hover-card');
-            
-            gsap.fromTo(elements, 
-                {
-                    opacity: 0,
-                    y: 50
-                },
-                {
-                    opacity: 1,
-                    y: 0,
-                    duration: 1,
-                    stagger: 0.1,
-                    ease: 'power3.out',
-                    scrollTrigger: {
-                        trigger: section,
-                        start: 'top 80%',
-                        once: true
-                    }
-                }
-            );
-        });
-
-        // Parallax effect
-        gsap.utils.toArray('.float').forEach(element => {
-            gsap.to(element, {
-                y: -100,
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: element,
-                    start: 'top bottom',
-                    end: 'bottom top',
-                    scrub: true
-                }
-            });
-        });
-
-        // Smooth scroll for navigation
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Header background on scroll
-        const header = document.querySelector('nav');
-        
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 100) {
-                header.classList.add('bg-black/80');
-            } else {
-                header.classList.remove('bg-black/80');
-            }
-        });
-
-        // Particle animation
+        // Particle system (only if animations enabled)
         function createParticles() {
-            const particlesContainer = document.getElementById('particles-js');
-            const particleCount = 50;
+            if (!document.body.classList.contains('animations-enabled')) return;
             
-            for (let i = 0; i < particleCount; i++) {
+            const container = document.getElementById('particleContainer');
+            for (let i = 0; i < 20; i++) { // Reduced number for performance
                 const particle = document.createElement('div');
-                particle.classList.add('particle');
+                particle.className = 'particle';
                 particle.style.left = Math.random() * 100 + '%';
                 particle.style.animationDelay = Math.random() * 20 + 's';
-                particle.style.animationDuration = (Math.random() * 20 + 20) + 's';
-                particlesContainer.appendChild(particle);
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(particle);
             }
         }
-        
         createParticles();
 
-        // Form submission
-        const form = document.querySelector('form');
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            // Add animation to button
-            const button = form.querySelector('button[type="submit"]');
-            button.innerHTML = '<span class="loader" style="width: 24px; height: 24px; border-width: 3px;"></span>';
-            
-            setTimeout(() => {
-                button.innerHTML = 'Message Sent! ✓';
-                button.classList.add('bg-green-600');
-                
-                setTimeout(() => {
-                    button.innerHTML = 'Send Message';
-                    button.classList.remove('bg-green-600');
-                    form.reset();
-                }, 3000);
-            }, 2000);
-        });
-
-        // Typing effect for hero title
-        const heroTitle = document.querySelector('#hero-title span:last-child');
-        const text = heroTitle.textContent;
-        heroTitle.textContent = '';
+        // Theme toggle
+        const themeToggle = document.querySelector('.theme-toggle');
+        const currentTheme = localStorage.getItem('theme') || 'dark';
         
-        let index = 0;
-        function typeWriter() {
-            if (index < text.length) {
-                heroTitle.textContent += text.charAt(index);
-                index++;
-                setTimeout(typeWriter, 100);
-            }
+        if (currentTheme === 'light') {
+            document.documentElement.classList.add('light-theme');
         }
         
-        setTimeout(typeWriter, 2000);
+        themeToggle.addEventListener('click', () => {
+            document.documentElement.classList.toggle('light-theme');
+            const newTheme = document.documentElement.classList.contains('light-theme') ? 'light' : 'dark';
+            localStorage.setItem('theme', newTheme);
+        });
 
-        // Magnetic hover effect
-        document.querySelectorAll('button, .hover-card').forEach(elem => {
-            elem.addEventListener('mousemove', (e) => {
-                const rect = elem.getBoundingClientRect();
+        // Animation toggle
+        const animationToggle = document.querySelector('.animation-toggle');
+        animationToggle.addEventListener('click', () => {
+            document.body.classList.toggle('animations-enabled');
+            const animationsEnabled = document.body.classList.contains('animations-enabled');
+            localStorage.setItem('animations', animationsEnabled ? 'enabled' : 'disabled');
+            
+            if (!animationsEnabled) {
+                // Clear animations
+                document.getElementById('particleContainer').innerHTML = '';
+            } else {
+                // Recreate animations
+                createParticles();
+            }
+        });
+
+        // Load animation preference
+        const savedAnimationPref = localStorage.getItem('animations');
+        if (savedAnimationPref === 'disabled') {
+            document.body.classList.remove('animations-enabled');
+        }
+
+        // Magnetic button effect
+        document.querySelectorAll('.magnetic-button').forEach(button => {
+            button.addEventListener('mousemove', (e) => {
+                const rect = button.getBoundingClientRect();
                 const x = e.clientX - rect.left - rect.width / 2;
                 const y = e.clientY - rect.top - rect.height / 2;
                 
-                gsap.to(elem, {
-                    x: x * 0.1,
-                    y: y * 0.1,
-                    duration: 0.3,
-                    ease: 'power2.out'
-                });
+                button.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
             });
             
-            elem.addEventListener('mouseleave', () => {
-                gsap.to(elem, {
-                    x: 0,
-                    y: 0,
-                    duration: 0.3,
-                    ease: 'power2.out'
-                });
+            button.addEventListener('mouseleave', () => {
+                button.style.transform = 'translate(0, 0)';
             });
+        });
+
+        // Enhanced search functionality with AI suggestions
+        const searchInput = document.querySelector('#global-search');
+        const searchSuggestions = [
+            "Show me today's meetings",
+            "Find expense reports",
+            "Team directory",
+            "Book meeting room",
+            "Recent documents",
+            "Project status",
+            "My tasks",
+            "Company news"
+        ];
+
+        searchInput.addEventListener('input', (e) => {
+            // Simulate AI-powered search suggestions
+            if (e.target.value.length > 2) {
+                // In a real app, this would call an AI API
+                console.log('AI processing query:', e.target.value);
+            }
+        });
+
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && e.target.value) {
+                showNotification(`Searching for "${e.target.value}"...`, 'info');
+                setTimeout(() => {
+                    showNotification('Found 12 results!', 'success');
+                    e.target.value = '';
+                }, 1500);
+            }
+        });
+
+        // Notification system with ARIA live regions
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-20 right-4 p-4 rounded-lg glass text-primary z-50 transition-all transform translate-x-full`;
+            notification.setAttribute('role', 'alert');
+            notification.setAttribute('aria-live', 'polite');
+            
+            notification.innerHTML = `
+                <div class="flex items-center space-x-3">
+                    <span class="text-2xl" aria-hidden="true">${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}</span>
+                    <p>${message}</p>
+                </div>
+            `;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        const activities = [
+            { name: 'Lisa Chen', initials: 'LC', action: 'updated', item: 'Design Specs', color: 'text-blue-400', bgColor: 'from-blue-500 to-indigo-600', image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=50' },
+            { name: 'Tom Wilson', initials: 'TW', action: 'commented on', item: 'API Documentation', color: 'text-green-400', bgColor: 'from-green-500 to-emerald-600', image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=50' },
+            { name: 'Maria Garcia', initials: 'MG', action: 'completed', item: 'User Testing', color: 'text-purple-400', bgColor: 'from-purple-500 to-violet-600', image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=50' },
+            { name: 'James Lee', initials: 'JL', action: 'started', item: 'Sprint Planning', color: 'text-orange-400', bgColor: 'from-orange-500 to-red-600', image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=50' },
+            { name: 'Anna Smith', initials: 'AS', action: 'shared', item: 'Market Analysis', color: 'text-pink-400', bgColor: 'from-pink-500 to-rose-600', image: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=50' },
+            { name: 'Robert Johnson', initials: 'RJ', action: 'approved', item: 'Budget Proposal', color: 'text-green-400', bgColor: 'from-teal-500 to-cyan-600', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=50' }
+        ];
+
+        setInterval(() => {
+            if (Math.random() > 0.8 && document.body.classList.contains('animations-enabled')) {
+                const activity = activities[Math.floor(Math.random() * activities.length)];
+                showNotification(`${activity.name} ${activity.action} ${activity.item}`, 'info');
+            }
+        }, 15000);
+
+        // Enhanced keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            // Ctrl/Cmd + K for search
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                searchInput.focus();
+            }
+            
+            // Escape to close modals/overlays
+            if (e.key === 'Escape') {
+                // Close any open modals or overlays
+                document.activeElement.blur();
+            }
+        });
+
+        // Collaborative features simulation
+        function simulateCollaboration() {
+            const cursors = document.querySelectorAll('.collab-cursor');
+            cursors.forEach(cursor => {
+                setInterval(() => {
+                    const x = Math.random() * 80 + 10;
+                    const y = Math.random() * 60 + 20;
+                    cursor.style.left = x + '%';
+                    cursor.style.top = y + '%';
+                }, 3000 + Math.random() * 2000);
+            });
+        }
+        
+        if (document.body.classList.contains('animations-enabled')) {
+            simulateCollaboration();
+        }
+
+        // Initialize interactive elements
+        document.querySelectorAll('.interactive-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const title = this.querySelector('h3, h4').textContent;
+                showNotification(`Opening ${title}...`, 'success');
+            });
+            
+            // Add keyboard support
+            card.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.click();
+                }
+            });
+        });
+
+        // Progress animation on intersection
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px'
+        };
+
+        const progressObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const progressBar = entry.target.querySelector('.progress-fill');
+                    if (progressBar && !progressBar.classList.contains('animated')) {
+                        progressBar.classList.add('animated');
+                        progressBar.style.animation = 'progress-grow 2s ease-out';
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('[role="progressbar"]').forEach(progress => {
+            progressObserver.observe(progress.parentElement);
+        });
+
+        // Voice search simulation
+        const voiceButton = document.querySelector('[aria-label="Voice search"]');
+        voiceButton.addEventListener('click', () => {
+            showNotification('Voice search activated. Listening...', 'info');
+            // In a real app, this would activate speech recognition
+            setTimeout(() => {
+                searchInput.value = searchSuggestions[Math.floor(Math.random() * searchSuggestions.length)];
+                searchInput.focus();
+                showNotification('Voice input received!', 'success');
+            }, 2000);
+        });
+
+        // Enhanced activity feed with live updates
+        function addActivityItem(activity) {
+            const feed = document.querySelector('[role="feed"]');
+            const newItem = document.createElement('div');
+            newItem.className = 'flex items-start space-x-3 p-3 rounded-lg hover:bg-white/5 transition-colors activity-item';
+            newItem.setAttribute('role', 'article');
+            
+            const avatarUrl = `https://images.unsplash.com/photo-${1500000000000 + Math.floor(Math.random() * 100000000)}?w=50`;
+            
+            newItem.innerHTML = `
+                <img src="${avatarUrl}" class="w-8 h-8 rounded-full" alt="${activity.name}">
+                <div class="flex-1">
+                    <p class="text-sm"><span class="font-medium ${activity.color}">${activity.name}</span> ${activity.action} <span class="text-blue-400">${activity.item}</span></p>
+                    <p class="text-xs text-secondary">just now</p>
+                </div>
+            `;
+            
+            feed.insertBefore(newItem, feed.firstChild);
+            
+            // Remove old items to prevent overflow
+            while (feed.children.length > 10) {
+                feed.removeChild(feed.lastChild);
+            }
+        }
+
+        // Simulate live updates
+        setInterval(() => {
+            if (Math.random() > 0.7) {
+                const activity = activities[Math.floor(Math.random() * activities.length)];
+                addActivityItem(activity);
+            }
+        }, 10000);
+
+        // Initialize on load with smooth fade-in
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 1s ease';
+                document.body.style.opacity = '1';
+            }, 100);
+            
+            // Welcome notification
+            setTimeout(() => {
+                showNotification('🚀 Welcome to NexusFlow Intranet!', 'success');
+            }, 1000);
+            
+            // Set up focus trap for accessibility
+            const firstFocusable = document.querySelector('.skip-link');
+            const lastFocusable = document.querySelector('.animation-toggle');
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Tab') {
+                    if (e.shiftKey && document.activeElement === firstFocusable) {
+                        e.preventDefault();
+                        lastFocusable.focus();
+                    } else if (!e.shiftKey && document.activeElement === lastFocusable) {
+                        e.preventDefault();
+                        firstFocusable.focus();
+                    }
+                }
+            });
+        });
+
+        // Performance optimization: Lazy load images
+        const imageObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src || img.src;
+                    imageObserver.unobserve(img);
+                }
+            });
+        });
+
+        document.querySelectorAll('img').forEach(img => {
+            imageObserver.observe(img);
         });
     </script>
 </body>
