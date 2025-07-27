@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NexusFlow Intranet - The Future of Work</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%233b82f6;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%238b5cf6;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='20' fill='url(%23grad)'/%3E%3Ctext x='50' y='70' font-family='Arial, sans-serif' font-size='60' font-weight='bold' text-anchor='middle' fill='white'%3EN%3C/text%3E%3C/svg%3E">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -90,7 +94,6 @@
             height: 100%;
             background: var(--primary-gradient);
             background-size: 400% 400%;
-            animation: gradient-flow 15s ease infinite;
             opacity: 0.1;
             z-index: -2;
         }
@@ -113,15 +116,19 @@
             height: 100%;
             z-index: -1;
             overflow: hidden;
+            pointer-events: none;
         }
 
-        .animations-enabled .particle {
+        .particle {
             position: absolute;
             width: 2px;
             height: 2px;
             background: rgba(255, 255, 255, 0.5);
             pointer-events: none;
             border-radius: 50%;
+        }
+
+        .animations-enabled .particle {
             animation: float-up 20s linear infinite;
         }
 
@@ -189,7 +196,6 @@
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: gradient-shift 3s ease infinite;
         }
 
         .animations-enabled .gradient-text {
@@ -990,21 +996,30 @@
             localStorage.setItem('theme', newTheme);
         });
 
-        // Animation toggle
+        // Animation toggle with debugging
         const animationToggle = document.querySelector('.animation-toggle');
         animationToggle.addEventListener('click', () => {
+            console.log('Animation toggle clicked');
             document.body.classList.toggle('animations-enabled');
             const animationsEnabled = document.body.classList.contains('animations-enabled');
+            console.log('Animations enabled:', animationsEnabled);
             localStorage.setItem('animations', animationsEnabled ? 'enabled' : 'disabled');
             
             const particleContainer = document.getElementById('particleContainer');
             if (!animationsEnabled) {
                 // Clear animations
                 particleContainer.innerHTML = '';
+                // Stop collaboration cursor animations
+                document.querySelectorAll('.collab-cursor').forEach(cursor => {
+                    if (cursor.intervalId) {
+                        clearInterval(cursor.intervalId);
+                    }
+                });
             } else {
                 // Clear first then recreate animations
                 particleContainer.innerHTML = '';
                 createParticles();
+                simulateCollaboration();
             }
         });
 
