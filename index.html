@@ -328,16 +328,35 @@
             left: 100%;
         }
 
-        /* Unique floating labels */
+        /* FIXED: Floating labels with proper positioning */
         .floating-label {
+            display: block;
+            font-size: 12px;
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Special case for the hero section cards */
+        .hero-card {
+            position: relative;
+            padding-top: 24px !important;
+            margin-top: 12px;
+        }
+
+        .hero-card .floating-label {
             position: absolute;
-            top: -10px;
+            top: 8px;
             left: 20px;
             background: var(--bg-primary);
             padding: 0 8px;
             font-size: 12px;
             color: #667eea;
             font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         /* Collaborative cursor indicators */
@@ -443,17 +462,17 @@
             </h2>
             <p class="text-xl text-secondary">It's <span id="currentDay"></span>, <span id="currentTime"></span></p>
             <div class="mt-8 flex justify-center space-x-4 flex-wrap gap-4">
-                <div class="glass px-6 py-3 rounded-full hover-lift cursor-pointer interactive-card" tabindex="0" role="button" aria-label="Today's focus: Product Launch Prep">
+                <div class="glass px-6 py-3 rounded-full hover-lift cursor-pointer interactive-card hero-card" tabindex="0" role="button" aria-label="Today's focus: Product Launch Prep">
                     <span class="floating-label">Today's Focus</span>
-                    <p class="text-lg font-semibold high-contrast mt-2">Product Launch Prep</p>
+                    <p class="text-lg font-semibold high-contrast">Product Launch Prep</p>
                 </div>
-                <div class="glass px-6 py-3 rounded-full hover-lift cursor-pointer interactive-card" tabindex="0" role="button" aria-label="Team mood: Energized">
+                <div class="glass px-6 py-3 rounded-full hover-lift cursor-pointer interactive-card hero-card" tabindex="0" role="button" aria-label="Team mood: Energized">
                     <span class="floating-label">Team Mood</span>
-                    <p class="text-lg font-semibold high-contrast mt-2">🔥 Energized</p>
+                    <p class="text-lg font-semibold high-contrast">🔥 Energized</p>
                 </div>
-                <div class="glass px-6 py-3 rounded-full hover-lift cursor-pointer interactive-card" tabindex="0" role="button" aria-label="Weather: Sunny, 72 degrees Fahrenheit">
+                <div class="glass px-6 py-3 rounded-full hover-lift cursor-pointer interactive-card hero-card" tabindex="0" role="button" aria-label="Weather: Sunny, 72 degrees Fahrenheit">
                     <span class="floating-label">Weather</span>
-                    <p class="text-lg font-semibold high-contrast mt-2">☀️ 72°F</p>
+                    <p class="text-lg font-semibold high-contrast">☀️ 72°F</p>
                 </div>
             </div>
         </section>
@@ -978,11 +997,13 @@
             const animationsEnabled = document.body.classList.contains('animations-enabled');
             localStorage.setItem('animations', animationsEnabled ? 'enabled' : 'disabled');
             
+            const particleContainer = document.getElementById('particleContainer');
             if (!animationsEnabled) {
                 // Clear animations
-                document.getElementById('particleContainer').innerHTML = '';
+                particleContainer.innerHTML = '';
             } else {
-                // Recreate animations
+                // Clear first then recreate animations
+                particleContainer.innerHTML = '';
                 createParticles();
             }
         });
@@ -991,6 +1012,7 @@
         const savedAnimationPref = localStorage.getItem('animations');
         if (savedAnimationPref === 'disabled') {
             document.body.classList.remove('animations-enabled');
+            document.getElementById('particleContainer').innerHTML = '';
         }
 
         // Magnetic button effect
@@ -1098,8 +1120,13 @@
         // Collaborative features simulation
         function simulateCollaboration() {
             const cursors = document.querySelectorAll('.collab-cursor');
-            cursors.forEach(cursor => {
-                setInterval(() => {
+            cursors.forEach((cursor, index) => {
+                // Clear any existing intervals
+                if (cursor.intervalId) {
+                    clearInterval(cursor.intervalId);
+                }
+                
+                cursor.intervalId = setInterval(() => {
                     const x = Math.random() * 80 + 10;
                     const y = Math.random() * 60 + 20;
                     cursor.style.left = x + '%';
@@ -1108,9 +1135,25 @@
             });
         }
         
+        // Start collaboration simulation if animations are enabled
         if (document.body.classList.contains('animations-enabled')) {
             simulateCollaboration();
         }
+        
+        // Also update collaboration when animation toggle is clicked
+        document.querySelector('.animation-toggle').addEventListener('click', () => {
+            const animationsEnabled = document.body.classList.contains('animations-enabled');
+            if (animationsEnabled) {
+                simulateCollaboration();
+            } else {
+                // Stop collaboration cursor animations
+                document.querySelectorAll('.collab-cursor').forEach(cursor => {
+                    if (cursor.intervalId) {
+                        clearInterval(cursor.intervalId);
+                    }
+                });
+            }
+        });
 
         // Initialize interactive elements
         document.querySelectorAll('.interactive-card').forEach(card => {
@@ -1169,10 +1212,8 @@
             newItem.className = 'flex items-start space-x-3 p-3 rounded-lg hover:bg-white/5 transition-colors activity-item';
             newItem.setAttribute('role', 'article');
             
-            const avatarUrl = `https://images.unsplash.com/photo-${1500000000000 + Math.floor(Math.random() * 100000000)}?w=50`;
-            
             newItem.innerHTML = `
-                <img src="${avatarUrl}" class="w-8 h-8 rounded-full" alt="${activity.name}">
+                <img src="${activity.image}" class="w-8 h-8 rounded-full" alt="${activity.name}">
                 <div class="flex-1">
                     <p class="text-sm"><span class="font-medium ${activity.color}">${activity.name}</span> ${activity.action} <span class="text-blue-400">${activity.item}</span></p>
                     <p class="text-xs text-secondary">just now</p>
