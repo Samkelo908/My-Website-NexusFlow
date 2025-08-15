@@ -51,7 +51,7 @@
             }
         }
 
-        /* Accessibility improvements */
+        
         .sr-only {
             position: absolute;
             width: 1px;
@@ -305,7 +305,7 @@
             z-index: 50;
         }
 
-        /* Better focus indicators */
+       
         button:focus-visible,
         a:focus-visible,
         input:focus-visible {
@@ -313,7 +313,7 @@
             outline-offset: 2px;
         }
 
-        /* Improved card hover states */
+        
         .interactive-card {
             position: relative;
             overflow: hidden;
@@ -334,7 +334,7 @@
             left: 100%;
         }
 
-        /* FIXED: Floating labels with proper positioning */
+        
         .floating-label {
             display: block;
             font-size: 12px;
@@ -345,7 +345,7 @@
             letter-spacing: 0.5px;
         }
 
-        /* Special case for the hero section cards */
+       
         .hero-card {
             position: relative;
             padding-top: 24px !important;
@@ -365,7 +365,7 @@
             letter-spacing: 0.5px;
         }
 
-        /* Collaborative cursor indicators */
+       
         .collab-cursor {
             position: absolute;
             width: 20px;
@@ -394,7 +394,7 @@
     </style>
 </head>
 <body class="animations-enabled">
-    <!-- Skip to content link for accessibility -->
+    
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
     <!-- Animated background elements -->
@@ -960,18 +960,18 @@
         updateTime();
         setInterval(updateTime, 1000);
 
-        // Check for reduced motion preference
+        
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         if (prefersReducedMotion) {
             document.body.classList.remove('animations-enabled');
         }
 
-        // Particle system (only if animations enabled)
+        
         function createParticles() {
             if (!document.body.classList.contains('animations-enabled')) return;
             
             const container = document.getElementById('particleContainer');
-            for (let i = 0; i < 20; i++) { // Reduced number for performance
+            for (let i = 0; i < 20; i++) { 
                 const particle = document.createElement('div');
                 particle.className = 'particle';
                 particle.style.left = Math.random() * 100 + '%';
@@ -1059,9 +1059,9 @@
         ];
 
         searchInput.addEventListener('input', (e) => {
-            // Simulate AI-powered search suggestions
+            
             if (e.target.value.length > 2) {
-                // In a real app, this would call an AI API
+               
                 console.log('AI processing query:', e.target.value);
             }
         });
@@ -1125,9 +1125,9 @@
                 searchInput.focus();
             }
             
-            // Escape to close modals/overlays
+            
             if (e.key === 'Escape') {
-                // Close any open modals or overlays
+                
                 document.activeElement.blur();
             }
         });
@@ -1136,7 +1136,7 @@
         function simulateCollaboration() {
             const cursors = document.querySelectorAll('.collab-cursor');
             cursors.forEach((cursor, index) => {
-                // Clear any existing intervals
+                
                 if (cursor.intervalId) {
                     clearInterval(cursor.intervalId);
                 }
